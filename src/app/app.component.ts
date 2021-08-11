@@ -8,6 +8,7 @@ export class AppComponent implements OnInit {
   receiveddata: any;
   displayArray: any = [];
   data: any;
+  showregister: boolean = true;
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -68,10 +69,16 @@ export class AppComponent implements OnInit {
   onReset() {
     this.submitted = false;
     this.registerForm.reset();
+    this.showregister=true
   }
   viewData(item) {
     debugger;
     this.data = this.displayArray.filter(x => x.rollno == item.rollno);
     this.registerForm.controls.firstname.setValue(this.data[0].firstname);
+    this.registerForm.controls.lastname.setValue(this.data[0].lastname);
+    this.registerForm.controls.rollno.setValue(this.data[0].rollno);
+    this.registerForm.controls.age.setValue(this.data[0].age);
+    this.registerForm.controls.gender.setValue(this.data[0].gender);
+    this.showregister = false;
   }
 }

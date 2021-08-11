@@ -98,8 +98,11 @@
           </div>
 
           <div class="text-center">
-            <button class="btn btn-primary mr-1" (click)="onSubmit()">
+            <button *ngIf="showregister" class="btn btn-primary mr-1" (click)="onSubmit()">
               Register
+            </button>
+            <button *ngIf="!showregister" class="btn btn-primary mr-1" (click)="onUpdate()">
+              Update
             </button>
             <button class="btn btn-secondary" type="reset" (click)="onReset()">
               Cancel
