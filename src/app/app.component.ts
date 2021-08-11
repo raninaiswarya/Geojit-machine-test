@@ -9,6 +9,7 @@ export class AppComponent implements OnInit {
   displayArray: any = [];
   data: any;
   showregister: boolean = true;
+  editindex: any;
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -69,10 +70,10 @@ export class AppComponent implements OnInit {
   onReset() {
     this.submitted = false;
     this.registerForm.reset();
-    this.showregister=true
+    this.showregister = true;
   }
-  viewData(item) {
-    debugger;
+  viewData(index, item) {
+    this.editindex = index;
     this.data = this.displayArray.filter(x => x.rollno == item.rollno);
     this.registerForm.controls.firstname.setValue(this.data[0].firstname);
     this.registerForm.controls.lastname.setValue(this.data[0].lastname);
@@ -80,5 +81,11 @@ export class AppComponent implements OnInit {
     this.registerForm.controls.age.setValue(this.data[0].age);
     this.registerForm.controls.gender.setValue(this.data[0].gender);
     this.showregister = false;
+  }
+  onUpdate() {
+    this.displayArray.splice(this.editindex, 1, this.registerForm.value);
+    localStorage.setItem('datas', JSON.stringify(this.displayArray));
+    this.receiveddata = localStorage.getItem('datas');
+    this.displayArray = JSON.parse(this.receiveddata);
   }
 }
