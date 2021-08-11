@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class AppComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
+  receiveddata: any = [];
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit {
       },
       {}
     );
+    this.receiveddata = localStorage.getItem('datas');
   }
 
   // convenience getter for easy access to form fields
@@ -27,6 +29,7 @@ export class AppComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log('value', this.registerForm.value);
     this.submitted = true;
 
     // stop here if form is invalid
@@ -34,12 +37,12 @@ export class AppComponent implements OnInit {
       return;
     }
 
-    let receiveddata = localStorage.getItem('datas');
+    this.receiveddata = localStorage.getItem('datas');
     let data = [];
+    data = JSON.parse(this.receiveddata);
+    console.log('test', data);
     debugger;
-    data = JSON.parse(receiveddata);
-    console.log('test', receiveddata);
-    if (data.length != 0) {
+    if (data == null || data.length == 0) {
       console.log('datas', data);
       localStorage.setItem('datas', JSON.stringify(data));
       // this.registerForm.patchValue(this.clearing);
@@ -55,13 +58,6 @@ export class AppComponent implements OnInit {
       // this.intermediateForm.patchValue(this.clearing);
       alert('Saved Successfully');
     }
-
-    let senddata = [];
-    // display form values on success
-    // + JSON.stringify(this.registerForm.value, null, 4));
-    senddata.push(this.registerForm.value);
-    localStorage.setItem('datas', JSON.stringify(senddata));
-    alert('SUCCESS!!');
   }
 
   onReset() {
