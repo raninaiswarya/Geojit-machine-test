@@ -72,6 +72,6 @@ export class AppComponent implements OnInit {
   viewData(item) {
     debugger;
     this.data = this.displayArray.filter(x => x.rollno == item.rollno);
-    this.registerForm.patchValue(this.data[0]);
+    this.registerForm.controls.firstname.setValue(this.data[0].firstname);
   }
 }
