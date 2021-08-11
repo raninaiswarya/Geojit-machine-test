@@ -1,7 +1,7 @@
 <!-- main app container -->
 <div class="row">
   <div class="col-md-6">
-    <table>
+    <table style="overflow-x:scroll;height:150px">
 
       <thead>
         <tr>
@@ -62,7 +62,7 @@
               <input
                 type="number"
                 formControlName="rollno"
-                class="form-control"
+                class="form-control"pattern= "[0-9]"
                 [ngClass]="{ 'is-invalid': submitted && f.rollno.errors }"
               />
               <div *ngIf="submitted && f.rollno.errors" class="invalid-feedback">
@@ -74,7 +74,7 @@
               <input
                 type="number"
                 formControlName="age"
-                class="form-control"
+                class="form-control" pattern= "[0-9]"
                 [ngClass]="{ 'is-invalid': submitted && f.age.errors }"
               />
               <div *ngIf="submitted && f.age.errors" class="invalid-feedback">

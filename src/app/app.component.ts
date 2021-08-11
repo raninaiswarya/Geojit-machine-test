@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
     return this.registerForm.controls;
   }
 
-  onSubmit() {
+  onSubmit() {//register
     console.log('value', this.registerForm.value);
     this.submitted = true;
     // stop here if form is invalid
@@ -81,14 +81,14 @@ export class AppComponent implements OnInit {
     }
   }
 
-  onReset() {
+  onReset() {//reset of form
     this.submitted = false;
     this.registerForm.reset();
     this.showregister = true;
     this.editindex = -1;
     this.editflag = false;
   }
-  viewData(index, item) {
+  viewData(index, item) {//during edit
     this.editindex = index;
     this.editflag = true;
     this.data = this.displayArray.filter(x => x.rollno == item.rollno);
@@ -99,7 +99,7 @@ export class AppComponent implements OnInit {
     this.registerForm.controls.gender.setValue(this.data[0].gender);
     this.showregister = false;
   }
-  onUpdate() {
+  onUpdate() {//update
     if (
       this.displayArray != null &&
       this.displayArray.length != 0 &&
@@ -121,7 +121,7 @@ export class AppComponent implements OnInit {
     }
     // localStorage.removeItem('datas');
   }
-  arraysort(data) {
+  arraysort(data) {//sorting based on roll no
     if (data != null && data.length != 0) {
       data.sort(function(a, b) {
         return a.rollno - b.rollno;
