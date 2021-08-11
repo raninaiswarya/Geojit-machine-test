@@ -9,7 +9,13 @@ export class AppComponent implements OnInit {
   displayArray: any = [];
   data: any;
   showregister: boolean = true;
-  editindex: any;
+  editindex: any = -1;
+  editflag: boolean = false;
+  genderArray = [
+    { id: 1, value: 'Male' },
+    { id: 2, value: 'Female' },
+    { id: 3, value: 'Others' }
+  ];
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -20,12 +26,13 @@ export class AppComponent implements OnInit {
         lastname: ['', Validators.required],
         rollno: ['', [Validators.required]],
         age: ['', [Validators.required]],
-        gender: ['', Validators.required]
+        gender: [null, Validators.required]
       },
       {}
     );
     this.receiveddata = localStorage.getItem('datas');
     this.displayArray = JSON.parse(this.receiveddata);
+    this.arraysort(this.displayArray);
   }
 
   // convenience getter for easy access to form fields
@@ -36,56 +43,89 @@ export class AppComponent implements OnInit {
   onSubmit() {
     console.log('value', this.registerForm.value);
     this.submitted = true;
-
     // stop here if form is invalid
     if (this.registerForm.invalid) {
       return;
-    }
-
-    this.receiveddata = localStorage.getItem('datas');
-    let data = [];
-    data = JSON.parse(this.receiveddata);
-    console.log('test', data);
-    debugger;
-    if (data == null || data.length == 0) {
-      console.log('datas', data);
-      localStorage.setItem('datas', JSON.stringify(data));
-      // this.registerForm.patchValue(this.clearing);
-      this.submitted = false;
-      this.registerForm.reset();
-      alert('Saved Successfully');
     } else {
-      let senddata = [];
-      senddata.push(this.registerForm.value);
-      localStorage.setItem('datas', JSON.stringify(senddata));
-      this.submitted = false;
-      this.registerForm.reset();
-      // this.intermediateForm.patchValue(this.clearing);
-      alert('Saved Successfully');
+      if (
+        this.displayArray != null &&
+        this.displayArray.length != 0 &&
+        this.displayArray.some(x => x.rollno == this.registerForm.value.rollno)
+      ) {
+        alert('Entered Roll no already exist');
+      } else {
+        let receiveddata = localStorage.getItem('datas');
+        let data = [];
+        data = JSON.parse(receiveddata);
+        this.arraysort(data);
+        console.log('datas', data);
+        if (data != null && data.length != 0) {
+          data.push(this.registerForm.value);
+          this.arraysort(data);
+          localStorage.setItem('datas', JSON.stringify(data));
+          alert('Saved Successfully');
+        } else {
+          let senddata = [];
+          senddata.push(this.registerForm.value);
+          this.arraysort(senddata);
+          localStorage.setItem('datas', JSON.stringify(senddata));
+          alert('Saved Successfully');
+        }
+        this.onReset();
+        this.receiveddata = localStorage.getItem('datas');
+        this.displayArray = JSON.parse(this.receiveddata);
+        this.arraysort(this.displayArray);
+
+        // reset whole form back to initial state
+      }
     }
-    this.receiveddata = localStorage.getItem('datas');
-    this.displayArray = JSON.parse(this.receiveddata);
   }
 
   onReset() {
     this.submitted = false;
     this.registerForm.reset();
     this.showregister = true;
+    this.editindex = -1;
+    this.editflag = false;
   }
-  // viewData() {
-  //   // this.editindex = index;
-  //   // this.data = this.displayArray.filter(x => x.rollno == item.rollno);
-  //   this.registerForm.controls.firstname.setValue(this.data[0].firstname);
-  //   this.registerForm.controls.lastname.setValue(this.data[0].lastname);
-  //   this.registerForm.controls.rollno.setValue(this.data[0].rollno);
-  //   this.registerForm.controls.age.setValue(this.data[0].age);
-  //   this.registerForm.controls.gender.setValue(this.data[0].gender);
-  //   this.showregister = false;
-  // }
-  // onUpdate() {
-  //   this.displayArray.splice(this.editindex, 1, this.registerForm.value);
-  //   localStorage.setItem('datas', JSON.stringify(this.displayArray));
-  //   this.receiveddata = localStorage.getItem('datas');
-  //   this.displayArray = JSON.parse(this.receiveddata);
-  // }
+  viewData(index, item) {
+    this.editindex = index;
+    this.editflag = true;
+    this.data = this.displayArray.filter(x => x.rollno == item.rollno);
+    this.registerForm.controls.firstname.setValue(this.data[0].firstname);
+    this.registerForm.controls.lastname.setValue(this.data[0].lastname);
+    this.registerForm.controls.rollno.setValue(this.data[0].rollno);
+    this.registerForm.controls.age.setValue(this.data[0].age);
+    this.registerForm.controls.gender.setValue(this.data[0].gender);
+    this.showregister = false;
+  }
+  onUpdate() {
+    if (
+      this.displayArray != null &&
+      this.displayArray.length != 0 &&
+      this.displayArray.some(
+        (x, index) =>
+          x.rollno == this.registerForm.value.rollno &&
+          this.editindex == index &&
+          this.editflag
+      )
+    ) {
+      this.displayArray.splice(this.editindex, 1, this.registerForm.value);
+      this.arraysort(this.displayArray);
+      localStorage.setItem('datas', JSON.stringify(this.displayArray));
+      this.onReset();
+      this.receiveddata = localStorage.getItem('datas');
+      this.displayArray = JSON.parse(this.receiveddata);
+    } else {
+      alert('Entered Roll no already exist');
+    }
+    // localStorage.removeItem('datas');
+  }
+  arraysort(data) {
+    if (data != null && data.length != 0) {
+      data.sort(function(a, b) {
+        return a.rollno - b.rollno;
+      });
+    }
+  }
 }

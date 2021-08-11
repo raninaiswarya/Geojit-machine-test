@@ -2,28 +2,31 @@
 <div class="row">
   <div class="col-md-6">
     <table>
-      <div *ngFor="let item of displayArray;let i=index">
-        <thead>
-          <tr>
-            <th>Student</th>
-            <th>Roll No</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{{item.firstname}}{{item.lastname}}</td>
-            <td (click)="viewData()">{{item.rollno}}</td>
-          </tr>
-        </tbody>
-      </div>
+
+      <thead>
+        <tr>
+          <th>Student</th>
+          <th>Roll No</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr *ngFor="let item of displayArray;let i=index">
+
+          <td (click)="viewData(i,item)">{{item.firstname}} {{item.lastname}}</td>
+          <td (click)="viewData(i,item)">{{item.rollno}}</td>
+        </tr>
+
+      </tbody>
+
     </table>
   </div>
   <div class="col-md-6">
     <div class="card m-3">
       <h5 class="card-header">Student Registration Form</h5>
       <div class="card-body">
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-          <div class="form-row">
+        <form [formGroup]="registerForm">
+          <div class=" form-row">
             <div class="form-group col-md-5">
               <label>First Name</label>
               <input
@@ -32,10 +35,7 @@
                 class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.firstname.errors }"
               />
-              <div
-                *ngIf="submitted && f.firstname.errors"
-                class="invalid-feedback"
-              >
+              <div *ngIf="submitted && f.firstname.errors" class="invalid-feedback">
                 <div *ngIf="f.firstname.errors.required">
                   First Name is required
                 </div>
@@ -49,10 +49,7 @@
                 class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.lastname.errors }"
               />
-              <div
-                *ngIf="submitted && f.lastname.errors"
-                class="invalid-feedback"
-              >
+              <div *ngIf="submitted && f.lastname.errors" class="invalid-feedback">
                 <div *ngIf="f.lastname.errors.required">
                   Last Name is required
                 </div>
@@ -68,10 +65,7 @@
                 class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.rollno.errors }"
               />
-              <div
-                *ngIf="submitted && f.rollno.errors"
-                class="invalid-feedback"
-              >
+              <div *ngIf="submitted && f.rollno.errors" class="invalid-feedback">
                 <div *ngIf="f.rollno.errors.required">Roll No is required</div>
               </div>
             </div>
@@ -91,16 +85,17 @@
           <div class="form-row">
             <div class="form-group col-md-5">
               <label>Gender</label>
-              <input
+              <!-- <input
                 type="text"
                 formControlName="gender"
                 class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.gender.errors }"
-              />
-              <div
-                *ngIf="submitted && f.gender.errors"
-                class="invalid-feedback"
-              >
+              /> -->
+              <select formControlName="gender">
+                <!-- <option [ngValue]="null" disabled>Select Country</option> -->
+                <option *ngFor="let gender of genderArray" [ngValue]="gender.id">{{gender.value}}</option>
+              </select>
+              <div *ngIf="submitted && f.gender.errors" class="invalid-feedback">
                 <div *ngIf="f.gender.errors.required">Gender is required</div>
               </div>
             </div>
