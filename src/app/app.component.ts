@@ -5,7 +5,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class AppComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
-  receiveddata: any = [];
+  receiveddata: any;
+  displayArray: any = [];
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -21,6 +22,7 @@ export class AppComponent implements OnInit {
       {}
     );
     this.receiveddata = localStorage.getItem('datas');
+    this.displayArray = JSON.parse(this.receiveddata);
   }
 
   // convenience getter for easy access to form fields
@@ -59,6 +61,7 @@ export class AppComponent implements OnInit {
       alert('Saved Successfully');
     }
     this.receiveddata = localStorage.getItem('datas');
+    this.displayArray = JSON.parse(this.receiveddata);
   }
 
   onReset() {
