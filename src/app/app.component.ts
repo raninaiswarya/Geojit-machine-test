@@ -7,6 +7,7 @@ export class AppComponent implements OnInit {
   submitted = false;
   receiveddata: any;
   displayArray: any = [];
+  data: any;
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -67,5 +68,10 @@ export class AppComponent implements OnInit {
   onReset() {
     this.submitted = false;
     this.registerForm.reset();
+  }
+  viewData(item) {
+    debugger;
+    this.data = this.displayArray.filter(x => x.rollno == item.rollno);
+    this.registerForm.patchValue(this.data[0]);
   }
 }
