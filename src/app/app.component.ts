@@ -58,6 +58,7 @@ export class AppComponent implements OnInit {
       // this.intermediateForm.patchValue(this.clearing);
       alert('Saved Successfully');
     }
+    this.receiveddata = localStorage.getItem('datas');
   }
 
   onReset() {
