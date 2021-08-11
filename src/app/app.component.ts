@@ -82,10 +82,10 @@ export class AppComponent implements OnInit {
     this.registerForm.controls.gender.setValue(this.data[0].gender);
     this.showregister = false;
   }
-  onUpdate() {
-    this.displayArray.splice(this.editindex, 1, this.registerForm.value);
-    localStorage.setItem('datas', JSON.stringify(this.displayArray));
-    this.receiveddata = localStorage.getItem('datas');
-    this.displayArray = JSON.parse(this.receiveddata);
-  }
+  // onUpdate() {
+  //   this.displayArray.splice(this.editindex, 1, this.registerForm.value);
+  //   localStorage.setItem('datas', JSON.stringify(this.displayArray));
+  //   this.receiveddata = localStorage.getItem('datas');
+  //   this.displayArray = JSON.parse(this.receiveddata);
+  // }
 }
