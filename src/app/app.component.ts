@@ -36,9 +36,10 @@ export class AppComponent implements OnInit {
 
     let receiveddata = localStorage.getItem('datas');
     let data = [];
+    debugger;
     data = JSON.parse(receiveddata);
     console.log('test', receiveddata);
-    if (data.length == 0) {
+    if (data.length != 0) {
       console.log('datas', data);
       localStorage.setItem('datas', JSON.stringify(data));
       // this.registerForm.patchValue(this.clearing);
